@@ -1,0 +1,39 @@
+INT8=0
+UINT8=1
+INT16=2
+UINT16=3
+INT32=4
+UINT32=5
+INT64=6
+UINT64=7
+
+FORMAT_BITS="bBhHiIqQ"
+
+def _filter_dict(d,remove_keys):
+	r = dict()
+	for k in d.keys():
+		if k not in remove_keys:
+			if k==k.upper():
+				r[k]=d[k]
+	return r
+
+def pack(cls):
+	def pack(self):
+		return struct.pack(self.fmtstr)
+
+def unpack(cls):
+	def _unpack(cls,bstr):
+		return struct.unpack(bstr)
+	return classmethod(_unpack)
+
+class PackMeta(type):
+	def __new__(cls,name,bases,dct):
+		obj = super().__new__(cls,name,bases,dct)
+		refs = _filter_dict(dct,"__module__ __qualname__".split())
+		if refs:
+			print(refs)
+			obj.fmtstr = "".join([FORMAT_BITS[refs[x]] for x in refs.keys()])
+		return obj
+
+class Pack(metaclass=PackMeta):
+	pass

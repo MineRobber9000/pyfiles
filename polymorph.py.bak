@@ -1,0 +1,37 @@
+import random
+a = 'print("This is an example of a polymorphic binary.")\nprint("It may not be a binary, but it\'s easier for you to see what happens in Python.")\nprint("Check the code now and you should see that it\'s different.")'
+b = 0
+c = 0
+d = random.SystemRandom().randint
+
+with open(__file__) as e:
+	for f in range(4): e.readline()
+	g = e.readlines()
+
+a = list(a)
+while b<len(a):
+	a[b]=chr(ord(a[b])^c)
+	b+=1
+a = "".join(a)
+exec(a)
+
+c = d(0,0x10FF00)
+
+a = list(a)
+while b>0:
+	b-=1
+	a[b]=chr(ord(a[b])^c)
+a = "".join(a)
+
+with open(__file__,"w") as h:
+	h.write("import random\n")
+	h.write(f"a = {a!r}\n")
+	h.write(f"b = {b}\n")
+	h.write(f"c = {c}\n")
+	for i, j in enumerate(g,4):
+		k = d(0,0x10FF00)
+		l = str(d(k,0x10FF00))
+		k = str(k)
+		if i==17:
+			j = j[:6]+k+","+l+j[-2:]
+		h.write(j)
